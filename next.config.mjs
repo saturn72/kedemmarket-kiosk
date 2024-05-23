@@ -2,10 +2,10 @@
 const nextConfig = { images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'media.istockphoto.com',
+        protocol: 'http',
+        hostname: 'dummyimage.com',
         port: '',
-        pathname: '/id/**',
+        pathname: '/**',
       },
     ],
   },};

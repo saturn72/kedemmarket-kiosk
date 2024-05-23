@@ -1,12 +1,10 @@
 "use client"
 import t from "@/app/locale";
-import { Autocomplete, Box, Card, CardContent, CardMedia, IconButton, Stack, TextField, Typography, } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import { Autocomplete, Stack, TextField, Typography, } from "@mui/material";
 import Image from 'next/image'
 import Link from "next/link";
 import { createFilterOptions } from '@mui/material/Autocomplete';
-import { SearchEntry } from "./types";
-import { getSearchEntries } from "./actions";
+import { SearchEntry } from "@api/search/types";
 import { useEffect, useState } from "react";
 
 const renderOption = (props: any, option: SearchEntry) => (
@@ -21,7 +19,8 @@ const renderOption = (props: any, option: SearchEntry) => (
                 alt={option.name}
                 width={100}
                 height={100}
-                sizes="100vw"
+                // sizes="100vw"
+                sizes="(max-width: 125px) 100vw"
             />
             <Stack direction="column">
                 <Typography
@@ -30,7 +29,8 @@ const renderOption = (props: any, option: SearchEntry) => (
                     sx={{ typography: { sm: 'subtitle1', xs: 'subtitle2' } }}>
                     {option.name}
                 </Typography>
-                <Typography display={{ sm: 'block', xs: 'none' }}
+                <Typography
+                    display={{ sm: 'block', xs: 'none' }}
                     variant="subtitle2"
                     color="text.secondary"
                     component="div">
@@ -45,7 +45,11 @@ const filterOptions = createFilterOptions({
     stringify: (option: SearchEntry) => JSON.stringify(option)
 });
 
-
+function truncateString(source: string | undefined, maxLength: number, suffix: string = "...") {
+    return !source || source.length < maxLength ?
+        source :
+        source.substring(0, maxLength - suffix.length) + suffix;
+}
 
 export default function Searchbar({ ...props }) {
     const [loading, setLoading] = useState<boolean>(true);
@@ -54,20 +58,22 @@ export default function Searchbar({ ...props }) {
 
     useEffect(() => {
         setLoading(true);
-
-        getSearchEntries()
-            .then(fse => {
-                const o = fse.map(o => {
+        fetch('api/search')
+        fetch('/api/search')
+            .then((res) => res.json())
+            .then(({ entries }: { entries: SearchEntry[] }) => {
+                const o: SearchEntry[] = entries.map((e: SearchEntry) => {
                     return {
-                        ...o,
-                        groupOrigin: o.group,
-                        group: t(o.group)
+                        ...e,
+                        description: truncateString(e.description, 25),
+                        groupOrigin: e.group,
+                        group: t(e.group)
                     };
                 });
                 setOptions(o);
                 setLoading(false);
-            });
-    }, [])
+            })
+    }, []);
     useEffect(() => setRenderInputText(t(loading ? 'loading' : 'search')), [loading]);
 
     const renderInput = (params: any) => <TextField {...params} label={renderInputText} />;

@@ -1,7 +1,7 @@
 export type SearchEntry = {
   id: string;
-  description: string;
   name: string;
+  description?: string;
   src: string;
   slug: string;
   group: string;

@@ -26,6 +26,9 @@
         "./*",
         "./app/*"
       ],
+      "@api/*": [
+        "./app/api/*"
+      ],
       "@components/*": [
         "./app/_components/*"
       ],
