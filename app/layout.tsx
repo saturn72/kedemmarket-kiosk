@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import '@fontsource/inter';
-import { CssBaseline } from '@mui/material';
+import { Box, Container, CssBaseline, Fab, Fade, Toolbar } from '@mui/material';
 import { Footer, Header } from "@/app/_components/common";
 import * as React from 'react';
 
@@ -31,6 +31,12 @@ export default function RootLayout({
             <Header />
             <main className="flex min-h-screen flex-col items-center justify-between p-24">
               {children}
+
+              <Container>
+                <Box sx={{ my: 2 }}>
+
+                </Box>
+              </Container>
               <Footer />
             </main>
           </React.Fragment>

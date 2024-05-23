@@ -56,7 +56,8 @@ const Footer: FC = ({ }) => {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
-        }}>
+        }}
+      >
         <FooterButton caption={links.cart.caption} uri={links.cart.uri} icon={links.cart.icon} />
         <FooterButton caption={links.account.caption} uri={links.account.uri} icon={links.account.icon} />
         <FooterButton caption={links.home.caption} uri={links.home.uri} icon={links.home.icon} />
