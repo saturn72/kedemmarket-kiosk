@@ -4,8 +4,10 @@ import { Autocomplete, Stack, TextField, Typography, } from "@mui/material";
 import Image from 'next/image'
 import Link from "next/link";
 import { createFilterOptions } from '@mui/material/Autocomplete';
-import { SearchEntry } from "@api/search/types";
+import { SearchEntry } from "@/app/api/search/types";
 import { useEffect, useState } from "react";
+
+type SearchEntryModel = SearchEntry & { groupOrigin: string; }
 
 const renderOption = (props: any, option: SearchEntry) => (
     <Link href={option.slug} key={props.key}>
@@ -42,7 +44,7 @@ const renderOption = (props: any, option: SearchEntry) => (
 )
 
 const filterOptions = createFilterOptions({
-    stringify: (option: SearchEntry) => JSON.stringify(option)
+    stringify: (option: SearchEntryModel) => JSON.stringify(option)
 });
 
 function truncateString(source: string | undefined, maxLength: number, suffix: string = "...") {
@@ -53,16 +55,16 @@ function truncateString(source: string | undefined, maxLength: number, suffix: s
 
 export default function Searchbar({ ...props }) {
     const [loading, setLoading] = useState<boolean>(true);
-    const [options, setOptions] = useState<SearchEntry[]>([]);
+    const [options, setOptions] = useState<SearchEntryModel[]>([]);
     const [renderInputText, setRenderInputText] = useState<string>(t('loading'));
 
     useEffect(() => {
         setLoading(true);
-        fetch('api/search')
+
         fetch('/api/search')
             .then((res) => res.json())
             .then(({ entries }: { entries: SearchEntry[] }) => {
-                const o: SearchEntry[] = entries.map((e: SearchEntry) => {
+                const o: SearchEntryModel[] = entries.map((e: SearchEntry) => {
                     return {
                         ...e,
                         description: truncateString(e.description, 25),

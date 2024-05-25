@@ -5,5 +5,5 @@ export type SearchEntry = {
   src: string;
   slug: string;
   group: string;
-  groupOrigin?: string;
+  // groupOrigin?: string;
 };
