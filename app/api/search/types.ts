@@ -7,3 +7,9 @@ export type SearchEntry = {
   group: string;
   // groupOrigin?: string;
 };
+
+export type Slide = {
+  src: string;
+  alt: string;
+  href: string;
+};

@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = { images: {
+const nextConfig = {
+  experimental:{
+    instrumentationHook : true
+  },
+  images: {
     remotePatterns: [
       {
         protocol: 'http',
@@ -7,6 +11,12 @@ const nextConfig = { images: {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/**',
+      }
     ],
   },};
 
